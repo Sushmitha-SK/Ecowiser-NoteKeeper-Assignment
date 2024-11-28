@@ -20,4 +20,7 @@ NoteKeeper is a minimalistic and user-friendly note-taking web application desig
 - **Frontend**: React.js, HTML, CSS
 - **Backend**: Google Cloud Firestore (Database)
 
+## Deployed Link
+- https://ecowiser-note-keeper.vercel.app/
+
 
