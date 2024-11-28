@@ -1,13 +1,485 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Roboto", sans-serif;
+  background: #fff;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #f5ba13;
+  margin: auto;
+  padding: 16px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+  color: #fff;
+  font-family: "Roboto";
+  font-weight: 600;
+}
+
+footer {
+  position: absolute;
+  bottom: -100px;
+  height: 2.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.note {
+  position: relative;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10px;
+  transition: transform 0.2s ease;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  width: 300px;
+  height: 220px;
+}
+
+.note:hover {
+  transform: translateY(-5px);
+}
+
+.note-pin {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.note-delete {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.note-pin button,
+.note-delete button {
+  color: #f5ba13;
+  background: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.note-pin button:hover,
+.note-delete button:hover {
+  background: #f5ba13;
+  color: #fff;
+}
+
+.note-pin button svg,
+.note-delete button svg {
+  pointer-events: none;
+}
+
+
+.note.pinned {
+  border: 2px solid #f5ba13;
+}
+
+.note h1,
+.note h2,
+.note p {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.note h1 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.note h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+}
+
+.note p {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+}
+
+.note button {
+  position: relative;
+  float: right;
+  margin-right: 12px;
+  color: #f5ba13;
+  background-color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 50%;
+}
+
+.note button:hover {
+  background: #f5ba13;
+  color: white;
+}
+
+form.create-note {
+  position: relative;
+  width: 650px;
+  margin: 30px auto 20px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+form.create-note input,
+form.create-note textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  margin: 5px 0px;
+}
+
+form.create-note .titleText {
+  font-weight: 500;
+  font-size: 18px;
+  font-family: inherit;
+}
+
+form.create-note .taglineText,
+.bodyText {
+  font-weight: 400;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+form.create-note button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #f5ba13;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+form.create-note button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.all-notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  justify-content: center;
+  margin-top: 10%;
+  grid-template-rows: auto;
+}
+
+.notes-container {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 0 10px;
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px 0;
+  position: relative;
+  bottom: 0;
+  clear: both;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  background-color: #f5ba13;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.pagination button:hover {
+  background-color: #d49d0c;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #d49d0c;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #d49d0c;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 600px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  flex-direction: column;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  padding: 10px 0;
+  margin-bottom: 10px;
+  background-color: transparent;
+  color: #333;
+  resize: none;
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.modal-content .editTitleText {
+  font-size: 18px;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: #aaa;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  outline: none;
+}
+
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 5%;
+}
+
+.modal-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s ease;
+  background-color: #f5ba13;
+}
+
+.modal-actions button:hover {
+  background-color: #eeb928;
+  color: white;
+}
+
+.modal-footer {
+  font-size: 12px;
+  color: #888;
+  margin-top: auto;
+  margin-bottom: 15px;
+}
+
+.pin-btn {
+  background: none;
+  border: none;
+}
+
+
+@media (max-width: 900px) {
+  .all-notes {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .all-notes {
+    grid-template-columns: repeat(1, 1fr);
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  form.create-note {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .note {
+    width: 100%;
+    padding: 12px;
+    margin: 15px auto;
+  }
+
+  .note h1 {
+    font-size: 1.3rem;
+  }
+
+  .note h2 {
+    font-size: 1rem;
+  }
+
+  .note p {
+    font-size: 0.9rem;
+  }
+
+  .note-pin,
+  .note-delete {
+    top: 5px;
+    right: 5px;
+  }
+
+  .modal-content {
+    width: 80%;
+  }
+
+  input,
+  textarea {
+    padding: 8px;
+  }
+
+  .modal-footer p {
+    font-size: 0.85rem;
+  }
+
+  .modal-actions button {
+    padding: 6px 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  form.create-note {
+    width: 100%;
+    margin: 15px auto;
+  }
+
+  form.create-note input,
+  form.create-note textarea {
+    padding: 10px;
+  }
+
+  .note {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .note h1 {
+    font-size: 1.2rem;
+  }
+
+  .note h2 {
+    font-size: 0.9rem;
+  }
+
+  .note p {
+    font-size: 0.8rem;
+  }
+
+  .note-pin,
+  .note-delete {
+    top: 0;
+    right: 0;
+  }
+
+  button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  input,
+  textarea {
+    padding: 6px;
+  }
+
+  .modal-footer p {
+    font-size: 0.8rem;
+  }
+
+  .modal-actions button {
+    padding: 5px 12px;
+  }
+
+  .delete-btn {
+    position: relative;
+    bottom: unset;
+    left: unset;
+  }
 }
